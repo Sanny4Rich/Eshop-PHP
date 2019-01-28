@@ -47,6 +47,11 @@ class Product
      */
     private $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\OrderItem", inversedBy="products")
+     */
+    private $OrderItems;
+
 
     public function __construct()
     {
@@ -130,6 +135,18 @@ class Product
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getOrderItems(): ?OrderItem
+    {
+        return $this->OrderItems;
+    }
+
+    public function setOrderItems(?OrderItem $OrderItems): self
+    {
+        $this->OrderItems = $OrderItems;
 
         return $this;
     }
