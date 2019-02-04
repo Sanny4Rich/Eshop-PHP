@@ -63,7 +63,6 @@ class Order
         $this->createdAt= new \DateTime();
         $this->status = self::STATUS_NEW;
         $this->OrderPrice = 0;
-        $this->items = new ArrayCollection();
         $this->PayStatus = false;
     }
 
@@ -170,7 +169,7 @@ class Order
     public function updateOrderPrice(){
         $orderPrice = 0;
         foreach ($this->getItems() as $item){
-            $orderPrice += $item->getProductPrice();
+            $orderPrice += $item->getSummaryPrice();
         }
 
         $this->setOrderPrice($orderPrice);

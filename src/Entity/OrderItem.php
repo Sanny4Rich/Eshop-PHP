@@ -46,7 +46,7 @@ class OrderItem
 
     public function __construct()
     {
-        $this->count =0;
+        $this->count = 0;
         $this->ProductPrice = 0;
         $this->SummaryPrice = 0;
     }
@@ -129,6 +129,8 @@ class OrderItem
     private function updateCost()
     {
         $this->SummaryPrice = $this->getProductPrice() * $this->getCount();
-        $this->Orders->updateOrderPrice();
+        if ($this->Orders) {
+            $this->Orders->updateOrderPrice();
+        }
     }
 }

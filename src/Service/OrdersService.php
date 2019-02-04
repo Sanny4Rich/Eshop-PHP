@@ -58,7 +58,7 @@ class OrdersService
             $order = $this->ordersRepository->find($orderId);
         }
 
-        if (!$orderId){
+        if (!$order){
             $order = new Order();
             $this->entityManager->persist($order);
         }
