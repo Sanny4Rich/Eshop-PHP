@@ -28,10 +28,16 @@ class OrdersController extends AbstractController
     public function addToCart(Product $product, OrdersService $ordersService, Request $request)
     {
         $order = $ordersService->addToCart($product);
-        $referer = $request->headers->get('referer');
-        $response = $this->redirect($referer);
-        $response->headers->setCookie(new Cookie('orderId', $order->getId(), new \DateTime('+1 year')));
 
+        if($request->isXmlHttpRequest()){
+            $response = $this->render('order/cartInHeader.html.twig', [
+                'cart' => $order,
+            ]);
+        } else {
+            $referer = $request->headers->get('referer');
+            $response = $this->redirect($referer);
+            $response->headers->setCookie(new Cookie('orderId', $order->getId(), new \DateTime('+1 year')));
+        }
         return $response;
     }
 

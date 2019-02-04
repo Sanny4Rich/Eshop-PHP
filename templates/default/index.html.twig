@@ -14,7 +14,10 @@
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text"><img src="{{ product.image }}" class="img-fluid" alt="{{ product.name }}"></p>
                     <p class="card-text">{{ product.description }}</p>
-                    <a href="{{ path('products_item', {'id': product.id}) }}" class="btn btn-primary">Подробнее</a>
+                    <a href="{{ path('products_item', {'id': product.id}) }}" class="btn btn-primary ">Подробнее</a>
+                    <a href="{{ path('orders_add_to_cart', {'id': product.id}) }}" class="btn btn-primary js-add-to-cart")>
+                        Добавить в корзину
+                    </a>
                 </div>
                 <div class="card-footer">
                     {{ (product.price/100)|localizedcurrency('UAH') }}
