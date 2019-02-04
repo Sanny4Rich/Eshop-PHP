@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Repository\OrderRepository;
 use App\Service\OrdersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -32,5 +33,26 @@ class OrdersController extends AbstractController
         $response->headers->setCookie(new Cookie('orderId', $order->getId(), new \DateTime('+1 year')));
 
         return $response;
+    }
+
+    /**
+     * @Route("/orders/cart-in-header", name="orders_cart_in_header")
+     */
+    public function cartInHeader(OrdersService $ordersService) {
+        $cart = $ordersService->getOrderFromRequest();
+
+
+        return $this->render('order/cartInHeader.html.twig', ['cart' => $cart]);
+    }
+
+    /**
+     * @Route("/orders/cart", name="orders")
+     */
+
+    public function cart(OrdersService $ordersService)
+    {
+        return $this->render('orders/index.html.twig', [
+            'cart' => $ordersService->getOrderFromRequest()
+        ]);
     }
 }

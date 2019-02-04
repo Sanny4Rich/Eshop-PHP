@@ -3,22 +3,5 @@
 {% block title %} Корзина {% endblock %}
 
 {% block body %}
-    <h1> Товары в корзине</h1>
 
-    <div class="row">
-        {% for order in orders %}
-            <div class="col-sm-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Заказ от {{ order.createdAt }}</h5>
-                        <a href="" class="btn btn-primary">Оплатить</a>
-
-                    </div>
-                    <div class="card-footer">
-                        {{ (order.orderPrice/100)|localizedcurrency('UAH') }}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
 {% endblock %}

@@ -31,7 +31,7 @@
                         <a class="dropdown-item" href="{{ path('category', {'slug': 'media'}) }}">Мультимедиа</a>
                         <div class="dropdown-divider"></div>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="far fa-credit-card d-none d-md-inline"></i>Оплата и доставка</a>
+                    <a class="nav-link" href=""><i class="far fa-credit-card d-none d-md-inline"></i>Олпата и доставка</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('about') }}">О магазине</a>
@@ -41,12 +41,9 @@
                 </li>
             </ul>
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
-                        <i class="fas fa-shopping-cart d-none d-md-inline"></i>
-                        <span class="d-md-none">Корзина</span>
+                <a href="{{ path('orders') }}" class="navbar-text">
+                        {{ render(url('orders_cart_in_header')) }}
                     </a>
-                </li>
             </ul>
         </div>
     </nav>
