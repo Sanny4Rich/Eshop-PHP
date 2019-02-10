@@ -1,29 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello OrdersController!{% endblock %}
+{% block title %}Корзина заказов{% endblock %}
 
 {% block body %}
     <h1> Товары в корзине</h1>
-
-    <table>
-        <tr>
-            <th>Товар</th>
-            <th>Цена</th>
-            <th>Количество</th>
-            <th>Стоимость</th>
-        </tr>
-
-        {% for item in cart.items %}
-            <tr>
-                <td>{{ item.product.name }}</td>
-                <td>{{ item.productPrice|money }}</td>
-                <td>{{ item.count }}</td>
-                <td>{{ item.summaryPrice|money }}</td>
-        {% endfor %}
-
-        <tr>
-            <th colspan="3">Всего</th>
-            <th>{{ cart.orderPrice|money }}</th>
-        </tr>
-    </table>
+    <div id="cartItems">
+    {{ include('orders/cartItems.html.twig', {'cart': cart })}}
+    </div>
 {% endblock %}

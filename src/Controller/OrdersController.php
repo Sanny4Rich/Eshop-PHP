@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\OrderItem;
 use App\Entity\Product;
 use App\Repository\OrderRepository;
 use App\Service\OrdersService;
@@ -29,22 +30,23 @@ class OrdersController extends AbstractController
     {
         $order = $ordersService->addToCart($product);
 
-        if($request->isXmlHttpRequest()){
+        if ($request->isXmlHttpRequest()) {
             $response = $this->render('order/cartInHeader.html.twig', [
                 'cart' => $order,
             ]);
         } else {
             $referer = $request->headers->get('referer');
             $response = $this->redirect($referer);
-            $response->headers->setCookie(new Cookie('orderId', $order->getId(), new \DateTime('+1 year')));
         }
+        $response->headers->setCookie(new Cookie('orderId', $order->getId(), new \DateTime('+1 year')));
         return $response;
     }
 
     /**
      * @Route("/orders/cart-in-header", name="orders_cart_in_header")
      */
-    public function cartInHeader(OrdersService $ordersService) {
+    public function cartInHeader(OrdersService $ordersService)
+    {
         $cart = $ordersService->getOrderFromRequest();
 
 
@@ -60,5 +62,35 @@ class OrdersController extends AbstractController
         return $this->render('orders/index.html.twig', [
             'cart' => $ordersService->getOrderFromRequest()
         ]);
+    }
+
+    /**
+     * @Route("/orders/remove-item/{id}", name="orders_remove_item")
+     */
+    public function removeItem(OrderItem $orderItem, OrdersService $ordersService, Request $request)
+    {
+        $ordersService->removeItemFromCart($orderItem);
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('orders/cartItems.html.twig', [
+                'cart' => $ordersService->getOrderFromRequest()
+            ]);
+        }
+        return $this->redirectToRoute('orders');
+    }
+
+    /**
+     * @Route("/orders/set-item-count/{id}", name="orders_set_item_count")
+     */
+    public function setItemCount(OrderItem $orderItem, OrdersService $ordersService, Request $request)
+    {
+     $ordersService->setItemCount($orderItem, $request->request->get('count'));
+
+        if ($request->isXmlHttpRequest()) {
+            return $this->render('orders/cartItems.html.twig', [
+                'cart' => $ordersService->getOrderFromRequest()
+            ]);
+        }
+        return $this->redirectToRoute('orders');
     }
 }
