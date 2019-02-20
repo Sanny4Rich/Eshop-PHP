@@ -2,11 +2,12 @@
     <div class="col-sm-3">
         <div class="card">
         {% if vich_uploader_asset(product, 'image') %}
-        <img src="{{ vich_uploader_asset(product, 'image')|imagine_filter('squared_thumbnail') }}" alt="{{ product.name }}">
+            <a href="{{ path('products_item', {'id': product.id}) }}"><img src="{{ vich_uploader_asset(product, 'image')|imagine_filter('squared_thumbnail') }}" alt="{{ product.name }}" >
+            </a>
         {% endif %}
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
+                <p class="card-text">{{ product.description|replace({';':"\n"})|nl2br }}</p>
                 <a href="{{ path('products_item', {'id': product.id}) }}" class="btn btn-primary ">Подробнее</a>
                 <a href="{{ path('orders_add_to_cart', {'id': product.id}) }}" class="btn btn-primary js-add-to-cart")>
                     Добавить в корзину

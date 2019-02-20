@@ -3,10 +3,22 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.realPrice|localizedcurrency('UAH') }}</p>
-    <p>{{ product.description|nl2br }}</p>
-    <a href="{{ path('orders_add_to_cart', {'id': product.id}) }}" class="btn btn-primary js-add-to-cart")>
-        Добавить в корзину
-    </a>
+    <h5>{{ product.name }}</h5>
+    <div class="container-fluid">
+        <div class="row">
+                <div class="col">
+                    <img src="{{ vich_uploader_asset(product, 'image')|imagine_filter('squared_thumbnail') }}"
+                         alt="{{ product.name }}">
+                </div>
+                    <div class="col">
+                        <a href="{{ path('orders_add_to_cart', {'id': product.id}) }}"
+                           class="btn btn-primary js-add-to-cart" )>
+                            Добавить в корзину
+                        </a>
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+            </div>
+    <p>{{ product.description|replace({';': "\n"})|nl2br }}</p>
 {% endblock %}

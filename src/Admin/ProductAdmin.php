@@ -59,6 +59,10 @@ class ProductAdmin extends AbstractAdmin
                 'required' => false,
                 'image_uri' => function (Product $product, $resolverdUri) use ($cacheManager){
                 // $cacheManager is LiipImagine cache Manageger
+                    if (!$resolverdUri)
+                    {
+                    return null;
+                    }
                     return $cacheManager->getBrowserPath($resolverdUri, 'squared_thumbnail');
                 }
             ]);
