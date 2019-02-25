@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\OrderItem;
 use App\Entity\Product;
+use App\Form\OrderType;
 use App\Repository\OrderRepository;
 use App\Service\OrdersService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -92,5 +93,36 @@ class OrdersController extends AbstractController
             ]);
         }
         return $this->redirectToRoute('orders');
+    }
+
+    /**
+     * @Route("/orders/create", name="orders_create_order")
+     */
+    public function createOrder(OrdersService $ordersService, Request $request)
+    {
+        $order = $ordersService->prepareOrder($this->getUser());
+        $form = $this->createForm(OrderType::class, $order);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $ordersService->sendOrder($order);
+
+            $response = $this->redirectToRoute('orders_thanks');
+            $response->headers->clearCookie('orderId');
+
+            return $response;
+        }
+        return $this->render('orders/createOrder.html.twig', [
+            'order' => $order,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/orders/thanks", name="orders_thanks")
+     */
+    public function orderThanks()
+    {
+        return $this->render('orders/thanks.html.twig');
     }
 }

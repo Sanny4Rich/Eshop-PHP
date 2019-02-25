@@ -6,9 +6,12 @@ namespace App\Service;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Twig\Environment;
 
 class OrdersService
 {
@@ -19,14 +22,26 @@ class OrdersService
 
     private $entityManager;
 
+    private $twig;
+
+    private $mailer;
+
+    private $parameters;
+
     public function __construct(
         RequestStack $requestStack,
         OrderRepository $orderRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Environment $twig,
+        \Swift_Mailer $mailer,
+        ParameterBagInterface $parameters
     ) {
         $this->request = $requestStack->getCurrentRequest();
         $this->ordersRepository = $orderRepository;
         $this->entityManager = $entityManager;
+        $this->twig = $twig;
+        $this->mailer = $mailer;
+        $this->parameters = $parameters;
     }
 
     public function addToCart(Product $product): Order
@@ -94,5 +109,40 @@ class OrdersService
         }
         $item->setCount($count);
         $this->entityManager->flush();
+    }
+
+    public function prepareOrder(?User $user)
+    {
+        $order = $this->getOrderFromRequest();
+        if($user) {
+            $order->setFirstName();
+            $order->setLastName();
+            $order->setEmail();
+            $order->setPhoneNumber();
+            $order->setAdress();
+        }
+        return $order;
+    }
+
+    public function sendOrder(Order $order)
+    {
+        $order->setStatus(Order::STATUS_ORDERED);
+        $this->entityManager->persist($order);
+        $this->entityManager->flush();
+        $this->sendEmail($this->parameters->get('adminEmail'), 'mail/newOrderForAdmin.html.twig', ['order' => $order]);
+    }
+
+    private function sendEmail(string $to,$templateName, array $context)
+    {
+        $template = $this->twig->load($templateName);
+        $subject = $template->renderBlock('subject', $context);
+        $body =$template->renderBlock('body', $context);
+
+        $massage = new \Swift_Message();
+        $massage->setSubject($subject);
+        $massage->setBody($body, 'text/html');
+        $massage->setTo($to);
+        $massage->setFrom($this->parameters->get('fromEmail'), $this->parameters->get('fromName'));
+        $this->mailer->send($massage);
     }
 }

@@ -5,6 +5,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'ru'
+    fromEmail: noreply@myshop.ua
+    fromName: MyShop
+    adminEmail: admin@myshop.ua
 
 services:
     # default configuration for services in *this* file

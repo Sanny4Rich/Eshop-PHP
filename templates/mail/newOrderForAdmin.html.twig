@@ -1,0 +1,7 @@
+{% block subject %}Заказ Оформлен{% endblock %}
+
+{% block body %}
+    <h1> Заказ №{{ order.id }}</h1>
+
+    <p>Вы оформили заказ №{{ order.id }}. Полная стоимость : {{ order.orderPrice|money }}</p>
+{% endblock %}
