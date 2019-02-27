@@ -48,3 +48,15 @@ services:
         arguments: [~, App\Entity\FeedBackRequest, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: ОбратнаяСвязь}
+
+    App\Admin\OrderAdmin:
+        arguments: [~, App\Entity\Order,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Заказы}
+        calls:
+            - ['addChild', ['@App\Admin\OrderItemAdmin']]
+
+    App\Admin\OrderItemAdmin:
+        arguments: [~,App\Entity\OrderItem,~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, show_in_dashboards: false}

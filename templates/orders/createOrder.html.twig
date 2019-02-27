@@ -16,7 +16,7 @@
         {% for item in order.items %}
         <tr>
             <td>
-                <a href="{{ path('products_item', {'id': item.product.id}) }}"></a>
+                <a href="{{ path('products_item', {'id': item.product.id}) }}">{{ item.product.name }}</a>
             </td>
             <td>{{ item.productPrice|money }}</td>
             <td>{{ item.count }}</td>

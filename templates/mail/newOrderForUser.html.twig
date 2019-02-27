@@ -3,5 +3,26 @@
 {% block body %}
     <h1> Заказ №{{ order.id }}</h1>
 
-    <p>Вы оформили заказ №{{ order.id }}. Полная стоимость : {{ order.orderPrice|money }}</p>
+    <p>Вы оформили заказ №{{ order.id }}.
+    <table>
+        <tr>
+            <td>Товар</td>
+            <td>Цена</td>
+            <td>Количество</td>
+            <td>Стоимость</td>
+        </tr>
+        <tr>
+            {% for item in order.items %}
+        <tr>
+            <td>
+                {{ item.product.name }}
+            </td>
+            <td>{{ item.productPrice|money }}</td>
+            <td>{{ item.count }}</td>
+            <td>{{ item.summaryPrice }}</td>
+        </tr>
+            {% endfor %}
+        </tr>
+    </table>
+    Общая стоимость : {{ order.orderPrice|money }}</p>
 {% endblock %}

@@ -130,6 +130,7 @@ class OrdersService
         $this->entityManager->persist($order);
         $this->entityManager->flush();
         $this->sendEmail($this->parameters->get('adminEmail'), 'mail/newOrderForAdmin.html.twig', ['order' => $order]);
+        $this->sendEmail($order->getEmail(), 'mail/newOrderForUser.html.twig', ['order' => $order]);
     }
 
     private function sendEmail(string $to,$templateName, array $context)
@@ -144,5 +145,6 @@ class OrdersService
         $massage->setTo($to);
         $massage->setFrom($this->parameters->get('fromEmail'), $this->parameters->get('fromName'));
         $this->mailer->send($massage);
+
     }
 }
