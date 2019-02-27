@@ -21,42 +21,44 @@ class OrderAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list)
     {
         $list
-            -> addIdentifier('id')
-            -> addIdentifier('createdAt')
-            -> addIdentifier('status')
-            -> addIdentifier('PayStatus')
-            -> addIdentifier('firstName')
-            -> addIdentifier('lastName')
-            -> addIdentifier('OrderPrice')
-            -> addIdentifier('user')
-            -> addIdentifier('PhoneNumber')
-            -> addIdentifier('adress');
+            ->addIdentifier('id')
+            ->addIdentifier('createdAt')
+            ->addIdentifier('status')
+            ->addIdentifier('PayStatus')
+            ->addIdentifier('firstName')
+            ->addIdentifier('lastName')
+            ->addIdentifier('OrderPrice', null, ['template' => 'admin/order/_amount.html.twig'])
+            ->addIdentifier('user')
+            ->addIdentifier('PhoneNumber')
+            ->addIdentifier('adress');
 
     }
+
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
         $filter
-            -> add('id')
-            -> add('user')
-            -> add('createdAt')
-            -> add('OrderPrice');
+            ->add('id')
+            ->add('user')
+            ->add('createdAt')
+            ->add('OrderPrice');
     }
+
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            -> add('createdAt')
-            -> add('status')
-            -> add('PayStatus')
-            -> add('firstName')
-            -> add('lastName')
-            -> add('OrderPrice')
-            -> add('user')
-            -> add('PhoneNumber')
-            -> add('adress')
+            ->add('createdAt')
+            ->add('status')
+            ->add('PayStatus')
+            ->add('firstName')
+            ->add('lastName')
+            ->add('OrderPrice')
+            ->add('user')
+            ->add('PhoneNumber')
+            ->add('adress')
             ->add('items', CollectionType::class, ['by_reference' => false], [
-                'edit' => 'inline',
-                'inline' => 'table'
-            ]
-        );
+                    'edit' => 'inline',
+                    'inline' => 'table'
+                ]
+            );
     }
 }
