@@ -2,21 +2,18 @@
 
 namespace App\Admin;
 
-
-use App\Entity\Product;
+use App\Form\MoneyTransformer;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class OrderAdmin extends AbstractAdmin
 {
-    /**
-     * @var CacheManager
-     *
-     */
 
     protected function configureListFields(ListMapper $list)
     {
@@ -51,7 +48,7 @@ class OrderAdmin extends AbstractAdmin
             ->add('PayStatus')
             ->add('firstName')
             ->add('lastName')
-            ->add('OrderPrice')
+            ->add('OrderPrice', TextType::class)
             ->add('user')
             ->add('PhoneNumber')
             ->add('adress')
@@ -60,5 +57,6 @@ class OrderAdmin extends AbstractAdmin
                     'inline' => 'table'
                 ]
             );
+        $form->get('OrderPrice')->addModelTransformer(new MoneyTransformer());
     }
 }
