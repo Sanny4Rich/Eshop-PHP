@@ -34,6 +34,7 @@ $('body').on('click', '.js-remove-item', function (event) {
 
         $.get(event.currentTarget.href, function (data) {
             cartItems.html(data);
+            cartInHeader.load(cartInHeader.data('refresh-url'));
             unmask();
         });
     }
@@ -44,8 +45,7 @@ $('body').on('input','.js-item-count', function (event) {
 
     $.post(target.data('href'), {'count': target.val()}, function (data) {
         cartItems.html(data);
+        cartInHeader.load(cartInHeader.data('refresh-url'));
 
-        $.get(event.target.href, function (data) {
-            cartInHeader.html(data);
     })
 });
