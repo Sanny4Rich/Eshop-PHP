@@ -14,6 +14,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class AttributeAdmin extends AbstractAdmin
@@ -32,7 +33,12 @@ class AttributeAdmin extends AbstractAdmin
     {
         $filter
             ->add('name')
-            ->add('type');
+            ->add('type', null, [], ChoiceType::class, [
+                'choices' => [
+                    'attribute.type.' . Attribute::TYPE_INT => Attribute::TYPE_INT,
+                    'attribute.type.' . Attribute::TYPE_LIST => Attribute::TYPE_LIST,
+                ]
+            ]);
     }
 
     protected function configureFormFields(FormMapper $form)

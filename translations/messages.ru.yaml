@@ -3,6 +3,8 @@ Description: Описание
 Price: Цена
 Is Top: В топе
 Type: Тип
+Attributes: Атрибуты
+Attribute Values: Значение атрибутов
 
 attribute:
   type:
