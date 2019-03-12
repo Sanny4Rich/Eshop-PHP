@@ -11,13 +11,7 @@ class AttributeValueAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form)
     {
         $form
-            ->add('product')
-            ->add('attribute', ChoiceType:: class, [
-                'choices' => [
-                    'attribute.type.' .Attribute::TYPE_INT => Attribute::TYPE_INT,
-                    'attribute.type.' .Attribute::TYPE_LIST => Attribute::TYPE_LIST,
-                ]
-            ])
+            ->add('attribute')
             ->add('value');
     }
 
