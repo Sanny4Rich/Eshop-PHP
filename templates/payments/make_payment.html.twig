@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Оплата заказа № {{ order.id }}
+{% endblock %}
+
+{% block body %}
+    <h1>Оплата заказа {{ order.id }}</h1>
+    <p> Сумма: {{ order.orderPrice|money }}</p>
+    {{ payment_form|raw }}
+{% endblock %}
+
